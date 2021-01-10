@@ -10,22 +10,42 @@
 ;                                                                              #
 ; **************************************************************************** #
 
-; rsi = char *buf
-; rdi = int fd
-; rdx = size_t count
+; ssize_t ft_write(int fd, const void *buf, size_t count)
+; rdi = fd, rsi = buf, rdx = count
 
-	section .txt
+	section .text
 	global	ft_write
-	extern	__errno_location ; tell the asse;bler function is defined elsewhere
+	extern	__errno_location ; tell the assembler, function is defined elsewhere
 
 ft_write:
 	mov rax, 1		; 1 is for write syscall code
 	syscall			; syscall depending of rax value  (ex:0 = read, 1 = write..)
 	cmp rax, 0		; if rax < 0 after syscall, error happend during syscall
-	jl errno		; then we want to displat the error number
-	ret				; otherwise just write the rsi
+	jl errno		; then we want to display the error number
+	ret				; otherwise just write the rsi = buf and rax = count
 
+
+; 3 methods works for errno need better understanding on 3rd before vog_push
 errno:
+	neg rax					; absolute value
+	mov rdi, rax			; set up rdi to call errno | save errno on stack
+	call __errno_location	; errno_loc stored on rdi, output mem addr of errno
+	mov [rax], rdi			; rdi store errno_loc return value in mem location of where rax point
+	mov rax, -1				; set rax to -1 signaling an error occured
+	ret						;
 
-	call __errno_location	; call the function via extern
-	ret
+	;neg rax
+	;push rax
+	;call __errno_location
+	;pop rdx
+	;mov [rax], rdx
+	;mov rax, -1
+	;ret
+
+	;push rbp
+	;mov rsp, rbp
+	;call __errno_location
+	;mov rax, -1
+	;pop rbp
+	;ret
+
