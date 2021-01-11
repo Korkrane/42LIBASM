@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 22:15:01 by bahaas            #+#    #+#             */
-/*   Updated: 2021/01/10 17:09:27 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/01/11 11:15:53 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
+#include <fcntl.h>
 
 void	strlen_checker(void)
 {
@@ -151,7 +152,55 @@ void	write_checker(void)
 
 void	read_checker(void)
 {
+	int fd1;
+	int fd2;
+	char buff1[50];
+	char buff2[50] = "test on bad fd :(";
+	int ret;
+
+	fd1 = open("test.txt", O_RDONLY);
+	fd2 = open("test.txt", O_RDONLY);
+	errno = 0;
+
 	printf("\033[1;34m***  READ CHECK ***\n\033[0m");
+	printf("\033[0;33mread on stdin (write some txt) : \033[0m");
+	fflush(stdout);
+	printf("read value   : %d\n", ret = read(1, buff1, 100));
+	buff1[ret] = 0;
+	printf("read display : %s\n", buff1);
+	printf("\033[0;33mft_read.s on stdin (write some txt) : \033[0m");
+	fflush(stdout);
+	printf("ft_read.s value   : %d\n", ret = ft_read(1, buff1, 100));
+	buff1[ret] = 0;
+	printf("ft_read.s display : %s\n", buff1);
+
+	printf("\033[0;33mread a file  : \n\033[0m");
+	fflush(stdout);
+	printf("read value   : %d\n", ret = read(fd1, buff1, 100));
+	buff1[ret] = 0;
+	printf("read display : %s", buff1);
+	printf("read errno   : %d\n\n", errno);
+	close(fd1);
+	printf("\033[0;33mft_read.s a file  :\n\033[0m");
+	fflush(stdout);
+	printf("ft_read.s value   : %d\n", ret = ft_read(fd2, buff1, 100));
+	buff1[ret] = 0;
+	printf("ft_read.s display : %s", buff1);
+	printf("ft_read.s errno   : %d\n\n", errno);
+	close(fd2);
+
+	printf("\033[0;33mread bad fd  : \n\033[0m");
+	fflush(stdout);
+	printf("read value   : %d\n", ret = read(-1, buff2, 100));
+	buff2[ret] = 0;
+	printf("read display : %s\n", buff2);
+	printf("read errno   : %d\n\n", errno);
+	printf("\033[0;33mft_read.s bad fd  :\n\033[0m");
+	fflush(stdout);
+	printf("ft_read.s value   : %d\n", ret = ft_read(-1, buff2, 100));
+	buff2[ret] = 0;
+	printf("ft_read.s display : %s\n", buff2);
+	printf("ft_read.s errno   : %d\n\n", errno);
 }
 
 void	strdup_checker(void)
