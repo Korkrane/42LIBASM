@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 22:15:01 by bahaas            #+#    #+#             */
-/*   Updated: 2021/01/11 11:15:53 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/12 15:29:58 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void	read_checker(void)
 	int fd1;
 	int fd2;
 	char buff1[50];
-	char buff2[50] = "test on bad fd :(";
+	char buff2[50];
 	int ret;
 
 	fd1 = open("test.txt", O_RDONLY);
@@ -167,12 +167,14 @@ void	read_checker(void)
 	fflush(stdout);
 	printf("read value   : %d\n", ret = read(1, buff1, 100));
 	buff1[ret] = 0;
-	printf("read display : %s\n", buff1);
+	printf("read display : %s", buff1);
+	printf("read errno   : %d\n\n", errno);
 	printf("\033[0;33mft_read.s on stdin (write some txt) : \033[0m");
 	fflush(stdout);
 	printf("ft_read.s value   : %d\n", ret = ft_read(1, buff1, 100));
 	buff1[ret] = 0;
-	printf("ft_read.s display : %s\n", buff1);
+	printf("ft_read.s display : %s", buff1);
+	printf("ft_read.s errno   : %d\n\n", errno);
 
 	printf("\033[0;33mread a file  : \n\033[0m");
 	fflush(stdout);
@@ -193,13 +195,11 @@ void	read_checker(void)
 	fflush(stdout);
 	printf("read value   : %d\n", ret = read(-1, buff2, 100));
 	buff2[ret] = 0;
-	printf("read display : %s\n", buff2);
 	printf("read errno   : %d\n\n", errno);
 	printf("\033[0;33mft_read.s bad fd  :\n\033[0m");
 	fflush(stdout);
 	printf("ft_read.s value   : %d\n", ret = ft_read(-1, buff2, 100));
 	buff2[ret] = 0;
-	printf("ft_read.s display : %s\n", buff2);
 	printf("ft_read.s errno   : %d\n\n", errno);
 }
 
