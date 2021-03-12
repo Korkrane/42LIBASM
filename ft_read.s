@@ -18,33 +18,16 @@
 	extern	__errno_location
 
 ft_read:
-	mov rax, 0
-	syscall
-	cmp rax, 0
-	jl errno
-	ret
+	mov rax, 0	; 0 is for read syscall code
+	syscall		;
+	cmp rax, 0	; if rax < after syscall, error happend during syscall
+	jl errno	; then we want to display the error number
+	ret			; otherwise fill the buffer with size of count to the fd
 
-; 3 methods works for errno need better understanding on 3rd before vog_push
 errno:
-	neg rax
-	mov rdi, rax
-	call __errno_location
-	mov [rax], rdi
-	mov rax, -1
-	ret
-	
-	;neg rax
-	;push rax
-	;call __errno_location
-	;pop rdx
-	;mov [rax], rdx
-	;mov rax, -1
-	;ret
-	
-	;push rbp
-	;mov rsp, rbp
-	;call __errno_location
-	;mov rax, -1
-	;pop rbp
-	;ret
-
+	neg rax							; absolute value
+	mov rdi, rax					; set up rdi to call errno | save errno on stack
+	call __errno_location wrt ..plt ; errno_loc stored on rdi, output mem addr of errno
+	mov [rax], rdi					; rdi store errno_loc return value in mem location of where rax point
+	mov rax, -1						; set rax to -1 reporting an error occured
+	ret								;

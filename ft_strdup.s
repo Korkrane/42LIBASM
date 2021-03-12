@@ -24,7 +24,7 @@ ft_strdup:
 	call ft_strlen		; take prec reg as arg (rdi), return in rax
 	inc rax				; for the +1 for \0
 	mov rdi, rax		; rax value in rdi
-	call malloc			; malloc space of rdi (len + 1)
+	call malloc wrt ..plt	; malloc space of rdi (len + 1)
 	pop rdi				; reset rdi to char *s
 	mov rsi, rdi		; prep for strcpy | *s to *src
 	mov rdi, rax		; prep for strcpy | rax to *dst

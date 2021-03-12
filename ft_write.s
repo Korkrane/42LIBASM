@@ -24,28 +24,10 @@ ft_write:
 	jl errno		; then we want to display the error number
 	ret				; otherwise just write the rsi = buf and rax = count
 
-
-; 3 methods works for errno need better understanding on 3rd before vog_push
 errno:
-	neg rax					; absolute value
-	mov rdi, rax			; set up rdi to call errno | save errno on stack
-	call __errno_location	; errno_loc stored on rdi, output mem addr of errno
-	mov [rax], rdi			; rdi store errno_loc return value in mem location of where rax point
-	mov rax, -1				; set rax to -1 signaling an error occured
-	ret						;
-
-	;neg rax
-	;push rax
-	;call __errno_location
-	;pop rdx
-	;mov [rax], rdx
-	;mov rax, -1
-	;ret
-
-	;push rbp
-	;mov rsp, rbp
-	;call __errno_location
-	;mov rax, -1
-	;pop rbp
-	;ret
-
+	neg rax							; absolute value
+	mov rdi, rax					; set up rdi to call errno | save errno on stack
+	call __errno_location wrt ..plt	; errno_loc stored on rdi, output mem addr of errno
+	mov [rax], rdi					; rdi store errno_loc return value in mem location of where rax point
+	mov rax, -1						; set rax to -1 reporting an error occured
+	ret								;
