@@ -6,7 +6,7 @@
 #    By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/26 22:12:28 by bahaas            #+#    #+#              #
-#    Updated: 2021/01/10 16:09:12 by bahaas           ###   ########.fr        #
+#    Updated: 2021/03/12 15:34:00 by bahaas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ $(NAME):	${OBJS}
 all:		${NAME}
 
 main:
-			${CC} main.c -no-pie ${NAME} && ./a.out
+			${CC} main.c ${NAME} && ./a.out
 
 clean:
 			${RM} ${OBJS}
