@@ -17,24 +17,24 @@
 	global	ft_strcmp
 
 ft_strcmp:
-	mov rax, 0		; initialize rax register to 0. rax = return value
-	mov rcx, 0		; loop index to 0
-	jmp while		;
+	mov rax, 0		;	initialize rax register to 0. rax = return value
+	mov rcx, 0		;	loop index to 0.
+	mov r15, 0
+
+while:
+	mov	al,	byte [rdi + rcx]	; al = s1[rdx]
+	mov r15b, byte [rsi + rcx]	; s2[i] in tmp
+	cmp r15b, 0					; if s2[i] == 0
+	je end						; end of function
+	cmp al, 0					; if s1[i] == 0
+	je end						; end of function
+	cmp al, r15b				; s1[i] == s2[i] ?
+	jnz end						; if != end of function else incr
 
 incr:
 	inc rcx			;
 	jmp while		;
 
-while:
-	mov bl, byte [rsi + rcx]	; s2[i] in tmp
-	mov al, byte [rdi + rcx]	; s1[i] in tmp
-	cmp bl, 0					; if s2[i] == 0
-	je end						; end of function
-	cmp al, 0					; if s1[i] == 0
-	je end						; end of function
-	cmp al, bl					; if s1[i] == s2[i]
-	je incr						; i++ and loop
-
 end:
-	sub rax, rbx		; s1[i] - s2[i]
+	sub rax, r15		; s1[i] - s2[i]
 	ret					; ret value of rax

@@ -27,7 +27,7 @@ ft_write:
 errno:
 	neg rax							; absolute value
 	mov rdi, rax					; set up rdi to call errno | save errno on stack
-	call __errno_location wrt ..plt	; errno_loc stored on rdi, output mem addr of errno
-	mov [rax], rdi					; rdi store errno_loc return value in mem location of where rax point
+	call __errno_location wrt ..plt ; wrt ..plt link external lib function to the program
+	mov [rax], rdi					; [rax] is equivalent to *rax : *rax = rdi
 	mov rax, -1						; set rax to -1 reporting an error occured
 	ret								;

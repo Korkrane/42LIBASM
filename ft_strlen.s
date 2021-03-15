@@ -19,15 +19,15 @@
 ft_strlen:
 	mov rax, 0		; initialize rax register to 0. rax = return value
 	mov rcx, 0		; loop index to 0
-	cmp rdi, 0		; cmp if *str in call of ft_strlen is not null
-	je end			; if comparison true thend ret rax that is set to 0 in end
+	cmp rdi, 0		; *str != 0 ?
+	je end			; 
 
 while:	
 	cmp byte [rdi + rcx], 0	; cmp rdi[rcx] to 0 
-	je  end					; if rdi[rcx] == \0 then end function
+	je  end					; if rdi[rcx] == 0 then end
 	inc rax					; otherwise inc ret value
 	inc rcx					; and loop index
-	jmp while				; loop
+	jmp while				;
 
 end:
 	ret					; ret value of rax

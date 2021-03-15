@@ -20,11 +20,11 @@
 	extern	ft_strcpy
 
 ft_strdup:
-	push rdi			; allow me to use rdi register (in that case char *s)
-	call ft_strlen		; take prec reg as arg (rdi), return in rax
-	inc rax				; for the +1 for \0
+	push rdi			; allow me to use rdi register (and save his original value for later)
+	call ft_strlen		; take prev register as arg (rdi), return in rax
+	inc rax				; +1 for \0
 	mov rdi, rax		; rax value in rdi
-	call malloc wrt ..plt	; malloc space of rdi (len + 1)
+	call malloc wrt ..plt	; malloc space of rdi (len + 1), wrt ..plt link external lib function to the program
 	pop rdi				; reset rdi to char *s
 	mov rsi, rdi		; prep for strcpy | *s to *src
 	mov rdi, rax		; prep for strcpy | rax to *dst

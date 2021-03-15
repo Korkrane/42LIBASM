@@ -19,15 +19,16 @@
 ft_strcpy:
 	mov rax, 0		;	initialize rax register to 0. rax = return value
 	mov rcx, 0		;	loop index to 0.
+	mov r15, 0
 
 while:
-	mov bl, byte [rsi + rcx]	; swap operation, [rsi] = rsi[rcx]
-	mov byte [rdi + rcx], bl	; copy the char from rsi (placed in bl) to rdi
-	cmp bl, byte 0				; equivalent to check if rsi[rcx] == \0
+	mov r15b, byte [rsi + rcx]	; swap operation, tmp = rsi[rcx]
+	mov byte [rdi + rcx], r15b	; copy the char from rsi (placed in r15b) to rdi
+	cmp r15b, byte 0			; if == 0
 	je end						; then end function
-	inc rcx						; 
+	inc rcx						; inc loop index
 	jmp while					; loop the copy
 
 end:
-	mov rax, rdi	;	put content of dest to rax (content of src due to swap)
+	mov rax, rdi	;	put dst to rax
 	ret				;	ret value of rax
